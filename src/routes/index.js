@@ -3,8 +3,18 @@ import { Route, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { actions } from '../reducers/startup';
+import { withStyles } from '@material-ui/core/styles';
+import AppBar from '../containers/AppBar.js'
 import App from '../containers/App.js'
 import Callback from '../containers/Callback';
+
+const styles = {
+  root: {
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+};
 
 class AppRoutes extends Component {
   componentDidMount() {
@@ -12,10 +22,13 @@ class AppRoutes extends Component {
   }
   render() {
     return (
-      <Switch>
-        <Route exact path="/" component={App} />
-        <Route path="/callback" component={Callback} />
-      </Switch>
+      <div className={this.props.classes.root}>
+        <AppBar />
+        <Switch>
+          <Route exact path="/" component={App} />
+          <Route path="/callback" component={Callback} />
+        </Switch>
+      </div>
     );
   }
 };
@@ -26,4 +39,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(AppRoutes));
+export default withRouter(connect(null, mapDispatchToProps)(withStyles(styles)(AppRoutes)));

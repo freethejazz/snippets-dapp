@@ -1,15 +1,97 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import * as blockstack from 'blockstack';
+import { withStyles } from '@material-ui/core/styles';
+import MaterialAppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import Button from '@material-ui/core/Button';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+import Avatar from '@material-ui/core/Avatar';
+
+const styles = {
+  root: {
+  },
+  grow: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
+  },
+};
 
 class AppBar extends Component {
+  state = {
+    anchorEl: null,
+  };
+
+  handleMenu = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  closeMenu = () => {
+    this.setState({ anchorEl: null });
+  };
+
+  handleLogout = () => {
+    this.props.logOut();
+    this.closeMenu()
+  };
+
   renderLogin() {
-    return <input type="button" onClick={() => this.props.logIn()} value="Sign In With Blockstack" />
+    return (
+      <Button color="inherit" onClick={() => this.props.logIn()}>Sign In With Blockstack</Button>
+    )
   }
   renderLogout() {
     return (
       <input type="button" onClick={() => this.props.logOut()} value="Log Out" />
     );
   }
-  render() {
+  renderUserMenu() {
+    const {
+      profile,
+      classes,
+    } = this.props;
+    const user = new blockstack.Person(profile);
+    const { anchorEl } = this.state;
+    const open = Boolean(anchorEl);
+
+    return (
+      <div>
+        <IconButton
+          aria-owns={open ? 'menu-appbar' : undefined}
+          aria-haspopup="true"
+          onClick={this.handleMenu}
+          color="inherit"
+        >
+          {!!user.avatarUrl() ?  <Avatar alt="?" src={user.avatarUrl()} className={classes.avatar} /> : <AccountCircle />}
+        </IconButton>
+        <Menu
+          id="menu-appbar"
+          anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          open={open}
+          onClose={this.closeMenu}
+        >
+          <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+          <MenuItem onClick={this.handleLogout}>Log Out</MenuItem>
+        </Menu>
+      </div>
+    );
+  }
+  oldRender() {
     const {
       loggedIn,
     } = this.props
@@ -19,6 +101,30 @@ class AppBar extends Component {
       </div>
     );
   }
+
+  render() {
+    const {
+      classes,
+      loggedIn,
+    } = this.props;
+
+    return (
+      <div className={classes.root}>
+        <MaterialAppBar position="static">
+          <Toolbar>
+            <Typography variant="h6" color="inherit" className={classes.grow}>
+              Decentralized Snippets
+            </Typography>
+            {loggedIn ? this.renderUserMenu() : this.renderLogin()}
+          </Toolbar>
+        </MaterialAppBar>
+      </div>
+    );
+  }
 }
 
-export default AppBar;
+AppBar.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(AppBar);
