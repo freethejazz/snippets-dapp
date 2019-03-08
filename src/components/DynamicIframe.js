@@ -33,7 +33,7 @@ const DynamicIFrame = (props) => {
     </body>
     </html>`;
   return (
-    <iframe className={props.classes.root} title="results" srcdoc={wrappedContentString} />
+    <iframe className={props.classes.root} title="results" srcDoc={wrappedContentString} />
   )
 }
 
