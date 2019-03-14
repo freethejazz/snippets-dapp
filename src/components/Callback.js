@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import Loading from './Loading';
 
 class App extends Component {
   constructor(props) {
@@ -14,9 +15,7 @@ class App extends Component {
       return <Redirect to="/" />
     } else if (this.props.isSignInPending) {
       return (
-        <div>
-          Loading user...
-        </div>
+        <Loading message={'Loading user...'}/>
       );
     } else {
       return <Redirect to="/" />

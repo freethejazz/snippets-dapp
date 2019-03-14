@@ -29,14 +29,18 @@ class EditorPanel extends Component {
     this.props.onChange(evt.target.value)
   };
   render() {
-    const props = this.props;
+    const {
+      classes,
+      label,
+      value,
+    } = this.props;
     return (
-      <div className={props.classes.root}>
-        <div className={props.classes.label}>{props.label}</div>
+      <div className={classes.root}>
+        <div className={classes.label}>{label}</div>
         <textarea
-          className={props.classes.editable}
+          className={classes.editable}
           type="text"
-          value={props.value}
+          value={value}
           onChange={this.updateValue}
         />
       </div>

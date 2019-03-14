@@ -9,6 +9,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
+  loading: state.snippet.retrieving,
   html: state.snippet.html,
   css: state.snippet.css,
   js: state.snippet.js,

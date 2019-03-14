@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import EditorPanel from '../components/EditorPanel';
 import DynamicIFrame from '../components/DynamicIframe';
+import Loading from '../components/Loading';
 
 const styles = {
   root: {
@@ -17,6 +18,7 @@ const styles = {
     flex: 1,
     flexDirection: 'row',
     minHeight: 180,
+    borderBottom: '1px solid #ccc',
   },
   results: {
     flex: 2,
@@ -27,6 +29,7 @@ class App extends Component {
   render() {
     const {
       classes,
+      loading,
       html,
       css,
       js,
@@ -34,6 +37,13 @@ class App extends Component {
       setCss,
       setJs,
     } = this.props
+    if (loading) {
+      return (
+        <div className={classes.root}>
+          <Loading message={"Loading snippet.."}/>
+        </div>
+      )
+    }
     return (
       <div className={classes.root}>
         <div className={classes.sources}>

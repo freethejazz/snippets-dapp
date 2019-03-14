@@ -8,13 +8,11 @@ import createSagaMiddleware from 'redux-saga';
 import rootReducer from './reducers';
 import rootSaga from './sagas';
 import { Router } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
 import AppRoutes from './routes';
 import * as serviceWorker from './serviceWorker';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const history = createHistory();
-// const routerMiddleware = createRouterMiddleware(history);
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
   rootReducer,

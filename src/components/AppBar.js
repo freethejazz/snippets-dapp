@@ -11,6 +11,8 @@ import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Avatar from '@material-ui/core/Avatar';
+import SaveIcon from '@material-ui/icons/Save';
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const styles = {
   root: {
@@ -21,6 +23,9 @@ const styles = {
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
+  },
+  rightPad: {
+    marginRight: 10,
   },
 };
 
@@ -56,6 +61,8 @@ class AppBar extends Component {
     const {
       profile,
       classes,
+      edited,
+      saving,
     } = this.props;
     const user = new blockstack.Person(profile);
     const { anchorEl } = this.state;
@@ -63,6 +70,15 @@ class AppBar extends Component {
 
     return (
       <div>
+        <Button
+          color="inherit"
+          disabled={(saving || !edited)}
+          onClick={() => this.props.saveSnippet()}
+          className={classes.rightPad}
+        >
+          {saving ? <CircularProgress className={classes.rightPad} color="inherit" size={20} /> : <SaveIcon className={classes.rightPad}/>}
+          {saving ? 'Saving' : 'Save' } Snippet
+        </Button>
         <IconButton
           aria-owns={open ? 'menu-appbar' : undefined}
           aria-haspopup="true"
@@ -88,16 +104,6 @@ class AppBar extends Component {
           <MenuItem onClick={this.handleClose}>Profile</MenuItem>
           <MenuItem onClick={this.handleLogout}>Log Out</MenuItem>
         </Menu>
-      </div>
-    );
-  }
-  oldRender() {
-    const {
-      loggedIn,
-    } = this.props
-    return (
-      <div>
-        {loggedIn ? this.renderLogout() : this.renderLogin()}
       </div>
     );
   }
