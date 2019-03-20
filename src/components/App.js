@@ -13,12 +13,20 @@ const styles = {
   grow: {
     flexGrow: 1,
   },
+  name: {
+    fontSize: '1.1em',
+    paddingTop: 5,
+    paddingBottom: 5,
+    backgroundColor: '#EEE',
+    textAlign: 'center',
+    textDecoration: 'underline'
+  },
   sources: {
     display: 'flex',
     flex: 1,
     flexDirection: 'row',
     minHeight: 180,
-    borderBottom: '1px solid #ccc',
+    borderBottom: '1px solid #CCC',
   },
   results: {
     flex: 2,
@@ -30,9 +38,8 @@ class App extends Component {
     const {
       classes,
       loading,
-      html,
-      css,
-      js,
+      name,
+      code,
       setHtml,
       setCss,
       setJs,
@@ -46,13 +53,14 @@ class App extends Component {
     }
     return (
       <div className={classes.root}>
+        <div className={classes.name}>{name}</div>
         <div className={classes.sources}>
-          <EditorPanel label="HTML" value={html} onChange={setHtml}/>
-          <EditorPanel label="CSS" value={css} onChange={setCss}/>
-          <EditorPanel label="JavaScript" value={js} onChange={setJs}/>
+          <EditorPanel label="HTML" value={code.html} onChange={setHtml}/>
+          <EditorPanel label="CSS" value={code.css} onChange={setCss}/>
+          <EditorPanel label="JavaScript" value={code.js} onChange={setJs}/>
         </div>
         <div className={classes.results}>
-          <DynamicIFrame html={html} css={css} js={js} />
+          <DynamicIFrame html={code.html} css={code.css} js={code.js} />
         </div>
       </div>
     );

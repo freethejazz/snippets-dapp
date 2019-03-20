@@ -5,10 +5,10 @@ import { actions } from '../reducers/snippet';
 const filename = 'snippet.json';
 
 export function* saveSnippet(blockstack) {
-  const { html, css, js } = yield select((s) => s.snippet);
+  const { name, snippet } = yield select((s) => s.snippet);
 
   try {
-    yield call(blockstack.putFile.bind(blockstack), filename, JSON.stringify({ html, js, css }));
+    yield call(blockstack.putFile.bind(blockstack), filename, JSON.stringify({ name, snippet }));
     yield put(actions.snippetSaved());
   } catch (e) {
     yield put(actions.snippetSaveError(e));

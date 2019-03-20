@@ -69,8 +69,10 @@ const defaultState = {
   retrieving: false,
   saving: false,
   error: null,
-  html: `<div class="message">The rotating color is <span id="foo"></span><div>`,
-  css: `.message {
+  name: 'Unnamed Snippet',
+  snippet: {
+    html: `<div class="message">The rotating color is <span id="foo"></span><div>`,
+    css: `.message {
   text-align: center;
   margin: 20px;
 }
@@ -79,7 +81,7 @@ span {
   font-size: 1.4em;
   text-decoration: underline;
 }`,
-  js: `const colors = ['red', 'blue', 'orange', 'purple'];
+    js: `const colors = ['red', 'blue', 'orange', 'purple'];
 let counter = 0;
 
 const el = document.getElementById('foo');
@@ -99,6 +101,7 @@ setEl(foo, getNextColor());
 setInterval(() => {
   setEl(foo, getNextColor())
 }, 1500)`,
+  },
 };
 
 const reducer = (state = defaultState, action) => {
@@ -107,19 +110,28 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         edited: true,
-        html: action.payload,
+        snippet: {
+          ...state.snippet,
+          html: action.payload,
+        },
       };
     case types.SET_CSS:
       return {
         ...state,
         edited: true,
-        css: action.payload,
+        snippet: {
+          ...state.snippet,
+          css: action.payload,
+        },
       };
     case types.SET_JS:
       return {
         ...state,
         edited: true,
-        js: action.payload,
+        snippet: {
+          ...state.snippet,
+          js: action.payload,
+        },
       };
     case types.SAVE_SNIPPET:
       return {
@@ -149,9 +161,8 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         retrieving: false,
-        html: action.payload.html,
-        css: action.payload.css,
-        js: action.payload.js,
+        name: action.payload.name,
+        snippet: action.payload.snippet,
       };
     case types.SNIPPET_RETRIEVE_ERROR:
       return {
