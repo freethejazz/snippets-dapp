@@ -2,6 +2,7 @@ export const types = {
   'SET_HTML': 'SET_HTML',
   'SET_CSS': 'SET_CSS',
   'SET_JS': 'SET_JS',
+  'SET_NAME': 'SET_NAME',
   'SAVE_SNIPPET': 'SAVE_SNIPPET',
   'SNIPPET_SAVED': 'SNIPPET_SAVED',
   'SNIPPET_SAVE_ERROR': 'SNIPPET_SAVE_ERROR',
@@ -27,6 +28,12 @@ export const actions = {
     return {
       type: types.SET_JS,
       payload: js,
+    };
+  },
+  setName: (name) => {
+    return {
+      type: types.SET_NAME,
+      payload: name,
     };
   },
   saveSnippet: () => {
@@ -133,6 +140,12 @@ const reducer = (state = defaultState, action) => {
           js: action.payload,
         },
       };
+    case types.SET_NAME:
+      return {
+        ...state,
+        edited: true,
+        name: action.payload,
+      }
     case types.SAVE_SNIPPET:
       return {
         ...state,

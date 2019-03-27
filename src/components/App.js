@@ -13,13 +13,29 @@ const styles = {
   grow: {
     flexGrow: 1,
   },
+  nameHolder: {
+    backgroundColor: '#eee',
+    textAlign: 'center',
+  },
   name: {
-    fontSize: '1.1em',
+    fontSize: '1.2em',
     paddingTop: 5,
     paddingBottom: 5,
-    backgroundColor: '#EEE',
+    backgroundColor: '#eee',
     textAlign: 'center',
-    textDecoration: 'underline'
+    textDecoration: 'underline',
+    outline: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: '#ddd',
+    },
+    '&:active': {
+      backgroundColor: '#ddd',
+    },
+    '&:focus': {
+      backgroundColor: '#ddd',
+    },
   },
   sources: {
     display: 'flex',
@@ -43,6 +59,7 @@ class App extends Component {
       setHtml,
       setCss,
       setJs,
+      setName,
     } = this.props
     if (loading) {
       return (
@@ -53,7 +70,9 @@ class App extends Component {
     }
     return (
       <div className={classes.root}>
-        <div className={classes.name}>{name}</div>
+        <div className={classes.nameHolder}>
+          <input className={classes.name} type="text" size={name.length} value={name} onChange={(evt) => setName(evt.target.value)} />
+        </div>
         <div className={classes.sources}>
           <EditorPanel label="HTML" value={code.html} onChange={setHtml}/>
           <EditorPanel label="CSS" value={code.css} onChange={setCss}/>
